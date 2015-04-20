@@ -126,7 +126,7 @@ function bind_removes(){
     gt = new Gettext({ 'domain' : 'messages' });
 
     $(".deleteUser").unbind('click').click(function () {
-        if (confirm(_('Login')) == true) {
+        if (confirm(_("Do you really want to delete this user?")) == true) {
             $.ajax({
                 type:       "GET",
                 url:        "ajax_processing.php",
