@@ -85,48 +85,33 @@ switch ($_GET['action']) {
 		<script type="text/javascript" src="js/admin.js"></script>
 		<script type="text/javascript">
 		   //attach enter key event to new input and call add data when hit
-		   /*$('#textLoginID').keyup(function(e) {
+		   $('#textLoginID').keyup(function(e) {
 				   if(e.keyCode == 13) {
-					   //window.parent.submitUserForm();
-                       validateForm();
+					   window.parent.submitUserForm();
+                       //validateForm();
 				   }
         	});
 
 		   $('#password').keyup(function(e) {
 				   if(e.keyCode == 13) {
-					   //window.parent.submitUserForm();
-                       validateForm();
+					   window.parent.submitUserForm();
+                       //validateForm();
 				   }
         	});
 
 		   $('#passwordReenter').keyup(function(e) {
 				   if(e.keyCode == 13) {
-					   //window.parent.submitUserForm();
-                       validateForm();
+					   window.parent.submitUserForm();
+                       //validateForm();
 				   }
-        	});*/
+        	});
 
 
 			//bind all of the inputs
 			$("#submitUser").click(function () {
-                validateForm();
+                /*validateForm();*/
+                window.parent.submitUserForm();
 			});
-            
-            function validateForm (){
-                if ($("#textLoginID").val() == ''){
-                    $("#span_errors").html("<?= _("UserID is required");?>");
-                    $("#textLoginID").focus();
-                }else if($("#password").val() == ''){
-                    $("#span_errors").html("<?= _("Password is required");?>");
-                    $("#password").focus();
-                }else if (($("#password").val() != '') && ($("#password").val() != $("#passwordReenter").val())){
-                    $("#span_errors").html("<?= _("Passwords do not match");?>");
-                    $("#passwordReenter").focus();
-                }else{
-                    window.parent.submitUserForm();
-                }
-           }
-
         </script>
 
 		<?php

@@ -83,7 +83,7 @@ function updateUsers() {
 
   
 function submitUserForm(){
-  //if (validateForm() === true) {
+  if (validateForm() === true) {
 	// ajax call to add/update
 	$.post("ajax_processing.php?action=submitUser", { loginID: $("#textLoginID").val(), editLoginID: $("#editLoginID").val(), password: $("#password").val(), adminInd: getCheckboxValue('adminInd')  } ,
 		function(data){
@@ -96,10 +96,24 @@ function submitUserForm(){
 	);
 
 
-	//return false;
+	return false;
   
-  //}
+  }
 }  
+
+function validateForm (){
+    var control=true;
+    if (($("#textLoginID").val() == '') && (($("#password").val() == ''))){
+        $("#span_errors").html(_("UserID is required"));
+        control = false;
+    }
+    if (($("#password").val() != '') && ($("#password").val() != $("#passwordReenter").val())){
+        $("#span_errors").html(_("Passwords do not match"));
+        $("#passwordReenter").focus();
+        control = false;
+    }
+    return control;
+   }
 
   function bind_removes(){
       gt = new Gettext({ 'domain' : 'messages' });
