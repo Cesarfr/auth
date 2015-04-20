@@ -58,80 +58,87 @@ function _(msgid) {
 
 $(document).ready(function(){
 
-	updateUsers();
+    updateUsers();
 
 });
- 
+
 
 
 function updateUsers() {
 
-  $.ajax({
-	 type:       "GET",
-	 url:        "ajax_htmldata.php",
-	 cache:      false,
-	 data:       "action=getUsers",
-	 success:    function(html) {
-		$("#div_users").html(html);
-		tb_reinit();
-		bind_removes();
-	 }
+    $.ajax({
+        type:       "GET",
+        url:        "ajax_htmldata.php",
+        cache:      false,
+        data:       "action=getUsers",
+        success:    function(html) {
+            $("#div_users").html(html);
+            tb_reinit();
+            bind_removes();
+        }
 
 
-  }); 
+    }); 
 }
 
-  
+
 function submitUserForm(){
-  if (validateForm() === true) {
-	// ajax call to add/update
-	$.post("ajax_processing.php?action=submitUser", { loginID: $("#textLoginID").val(), editLoginID: $("#editLoginID").val(), password: $("#password").val(), adminInd: getCheckboxValue('adminInd')  } ,
-		function(data){
+    if (validateForm() === true) {
+        // ajax call to add/update
+        $.post("ajax_processing.php?action=submitUser", { loginID: $("#textLoginID").val(), editLoginID: $("#editLoginID").val(), password: $("#password").val(), adminInd: getCheckboxValue('adminInd')  } ,
+               function(data){
 
-			tb_remove();		
-			updateUsers();
-			return false;
-			
-		}
-	);
+            tb_remove();		
+            updateUsers();
+            return false;
+
+        }
+              );
 
 
-	return false;
-  
-  }
+        return false;
+
+    }
 }  
 
 function validateForm (){
     var control=true;
-    if (($("#textLoginID").val() == '') && (($("#password").val() == ''))){
-        $("#span_errors").html(_("UserID is required"));
-        control = false;
-    }
     if (($("#password").val() != '') && ($("#password").val() != $("#passwordReenter").val())){
         $("#span_errors").html(_("Passwords do not match"));
         $("#passwordReenter").focus();
         control = false;
     }
+
+    if (($("#editLoginID").val() == '') && (($("#password").val() == ''))){
+        $("#span_errors").html(_("Password is required"));
+        $("#password").focus();
+        control = false;
+    }
+    if (($("#textLoginID").val() == '')){
+        $("#span_errors").html(_("UserID is required"));
+        $("#textLoginID").focus();
+        control = false;
+    }
     return control;
-   }
+}
 
-  function bind_removes(){
-      gt = new Gettext({ 'domain' : 'messages' });
+function bind_removes(){
+    gt = new Gettext({ 'domain' : 'messages' });
 
-  	 $(".deleteUser").unbind('click').click(function () {
-	  if (confirm(_('Login')) == true) {
-		  $.ajax({
-			 type:       "GET",
-			 url:        "ajax_processing.php",
-			 cache:      false,
-			 data:       "action=deleteUser&loginID=" + $(this).attr("id"),
-			 success:    function(html) { 
-				 updateUsers();
-			 }
+    $(".deleteUser").unbind('click').click(function () {
+        if (confirm(_('Login')) == true) {
+            $.ajax({
+                type:       "GET",
+                url:        "ajax_processing.php",
+                cache:      false,
+                data:       "action=deleteUser&loginID=" + $(this).attr("id"),
+                success:    function(html) { 
+                    updateUsers();
+                }
 
 
 
-		 });
-	  }			
-  	 });
-  }
+            });
+        }			
+    });
+}
